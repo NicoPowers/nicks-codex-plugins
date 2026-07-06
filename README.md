@@ -8,14 +8,14 @@ Personal Codex plugin monorepo.
 
 ## Install In Codex
 
-As an online marketplace, add this GitHub repo in Codex:
+As a Git marketplace, add this GitHub repo with explicit sparse paths:
 
-```text
-git@github.com:NicoPowers/nicks-codex-plugins.git
+```powershell
+codex plugin marketplace add git@github.com:NicoPowers/nicks-codex-plugins.git --sparse .agents/plugins/marketplace.json --sparse plugins/pdf-to-markdown
+codex plugin add pdf-to-markdown@nicks-codex-plugins
 ```
 
-This repo keeps a root `marketplace.json` for online marketplace imports. It also keeps
-`.agents/plugins/marketplace.json` for local filesystem marketplace workflows.
+Codex marketplace imports look for `.agents/plugins/marketplace.json`. The default Git sparse checkout may not include that hidden path, so the explicit `--sparse` arguments are required for this repo.
 
 For a local filesystem install from this checkout:
 
