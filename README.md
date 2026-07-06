@@ -8,7 +8,16 @@ Personal Codex plugin monorepo.
 
 ## Install In Codex
 
-From any shell:
+As an online marketplace, add this GitHub repo in Codex:
+
+```text
+git@github.com:NicoPowers/nicks-codex-plugins.git
+```
+
+This repo keeps a root `marketplace.json` for online marketplace imports. It also keeps
+`.agents/plugins/marketplace.json` for local filesystem marketplace workflows.
+
+For a local filesystem install from this checkout:
 
 ```powershell
 codex plugin marketplace add C:\Users\nicol\Documents\nicks-codex-plugins
