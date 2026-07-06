@@ -1,0 +1,20 @@
+{
+  "name": "nicks-codex-plugins",
+  "interface": {
+    "displayName": "Nick's Codex Plugins"
+  },
+  "plugins": [
+    {
+      "name": "pdf-to-markdown",
+      "source": {
+        "source": "local",
+        "path": "./plugins/pdf-to-markdown"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

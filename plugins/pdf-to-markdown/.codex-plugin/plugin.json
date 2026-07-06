@@ -1,0 +1,32 @@
+{
+  "name": "pdf-to-markdown",
+  "version": "0.1.0",
+  "description": "Convert PDFs to Markdown with Marker for Codex context.",
+  "author": {
+    "name": "Nick"
+  },
+  "license": "MIT",
+  "keywords": [
+    "pdf",
+    "markdown",
+    "marker",
+    "gemini",
+    "context"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "PDF to Markdown",
+    "shortDescription": "Convert PDFs to Markdown for Codex context.",
+    "longDescription": "Adds a repeatable Marker-based PDF to Markdown workflow with LLM cleanup, Gemini Flash-Lite defaults, and image descriptions instead of extracted image files.",
+    "developerName": "Nick",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Convert this PDF to Markdown.",
+      "Turn this repo PDF into context Markdown.",
+      "Extract this PDF as Markdown next to the file."
+    ]
+  }
+}

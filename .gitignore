@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Plugin-local Python environments and generated dependency state.
+plugins/*/.venv/
+plugins/*/.cache/
+
+# Local secrets must stay out of the syncable repo.
+.env
+*.env
+
+# OS/editor noise.
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
