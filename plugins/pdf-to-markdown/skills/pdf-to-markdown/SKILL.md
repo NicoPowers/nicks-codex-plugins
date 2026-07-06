@@ -13,13 +13,46 @@ Use this skill when the user asks to convert, extract, parse, summarize from, or
    - If the user points to a repo file, use that path.
    - If the user uploaded a PDF and Codex exposes a local attachment path, use that path.
    - If no filesystem path is available, ask the user for the local PDF path.
-2. Run the converter script from the plugin root:
+2. Prefer a user-terminal workflow for conversion jobs.
+   - Give the user copy-paste PowerShell commands that locate the installed plugin, store the API key if needed, and run the converter.
+   - Do not run long conversions inside the Codex turn unless the user explicitly asks Codex to run it.
+   - Tell the user that first-time dependency installation and large PDFs may take 10+ minutes.
+3. After the terminal command finishes, ask the user for the generated Markdown path or read the path printed by the script if it is available in context.
+4. Read the generated Markdown file into context when the user wants to use the PDF content in the current conversation.
+
+## Terminal Commands
+
+Give this setup command when the user needs to configure their Gemini API key:
 
 ```powershell
-python .\scripts\convert_pdf.py <path-to-pdf>
+$pluginBase = Join-Path $env:USERPROFILE ".codex\plugins\cache\nicks-codex-plugins\pdf-to-markdown"
+$pluginRoot = Get-ChildItem -LiteralPath $pluginBase -Directory |
+  Sort-Object LastWriteTime -Descending |
+  Select-Object -First 1
+python (Join-Path $pluginRoot.FullName "scripts\set_api_key.py") set
 ```
 
-3. Read the generated Markdown file into context when the user wants to use the PDF content in the current conversation.
+Give this conversion command, replacing the PDF path:
+
+```powershell
+$pluginBase = Join-Path $env:USERPROFILE ".codex\plugins\cache\nicks-codex-plugins\pdf-to-markdown"
+$pluginRoot = Get-ChildItem -LiteralPath $pluginBase -Directory |
+  Sort-Object LastWriteTime -Descending |
+  Select-Object -First 1
+python (Join-Path $pluginRoot.FullName "scripts\convert_pdf.py") "C:\path\to\paper.pdf"
+```
+
+For selected pages:
+
+```powershell
+python (Join-Path $pluginRoot.FullName "scripts\convert_pdf.py") "C:\path\to\paper.pdf" --page-range "0,5-10,20"
+```
+
+For OCR-heavy PDFs:
+
+```powershell
+python (Join-Path $pluginRoot.FullName "scripts\convert_pdf.py") "C:\path\to\paper.pdf" --force-ocr
+```
 
 ## Defaults
 
@@ -37,36 +70,12 @@ The converter defaults to:
 
 The script uses `GOOGLE_API_KEY` or `GEMINI_API_KEY` from the live environment first. If neither is set, it reads the plugin-local `.env` file, which is ignored by git.
 
-To store a key without restarting Codex:
+For Codex GUI usage, prefer having the user run the terminal setup command above. It avoids Codex process environment issues and keeps long-running conversions in the user's terminal.
+
+From the plugin root, this is the underlying setup command:
 
 ```powershell
 python .\scripts\set_api_key.py set
 ```
 
 Do not store API keys in tracked repo files, plugin manifests, Markdown outputs, or command examples.
-
-## Useful Commands
-
-Convert a PDF:
-
-```powershell
-python .\scripts\convert_pdf.py C:\path\to\paper.pdf
-```
-
-Convert selected pages:
-
-```powershell
-python .\scripts\convert_pdf.py C:\path\to\paper.pdf --page-range "0,5-10,20"
-```
-
-Force OCR:
-
-```powershell
-python .\scripts\convert_pdf.py C:\path\to\paper.pdf --force-ocr
-```
-
-Use a different Gemini model:
-
-```powershell
-python .\scripts\convert_pdf.py C:\path\to\paper.pdf --model gemini-3.5-flash
-```
