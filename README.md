@@ -11,7 +11,7 @@ Personal Codex plugin monorepo.
 As a Git marketplace, add this GitHub repo with explicit sparse paths:
 
 ```powershell
-codex plugin marketplace add git@github.com:NicoPowers/nicks-codex-plugins.git --sparse .agents/plugins/marketplace.json --sparse plugins/pdf-to-markdown
+codex plugin marketplace add git@github.com:NicoPowers/nicks-codex-plugins.git --sparse .agents/plugins/marketplace.json --sparse plugins/pdf-to-markdown --sparse plugins/pdf-to-markdown/commands
 codex plugin add pdf-to-markdown@nicks-codex-plugins
 ```
 
@@ -41,6 +41,12 @@ When Codex is already running and cannot see newly-set shell environment variabl
 ```powershell
 python .\plugins\pdf-to-markdown\scripts\set_api_key.py set
 python .\plugins\pdf-to-markdown\scripts\set_api_key.py show
+```
+
+After installing the plugin, you can also use the Codex slash command:
+
+```text
+/pdf-to-markdown-api-init <API_KEY>
 ```
 
 The live environment still takes precedence over the plugin-local `.env`.
