@@ -35,7 +35,15 @@ The converter defaults to:
 
 ## Credentials
 
-The script requires either `GOOGLE_API_KEY` or `GEMINI_API_KEY` in the environment. Do not store API keys in repo files, plugin files, Markdown outputs, or command examples.
+The script uses `GOOGLE_API_KEY` or `GEMINI_API_KEY` from the live environment first. If neither is set, it reads the plugin-local `.env` file, which is ignored by git.
+
+To store a key without restarting Codex:
+
+```powershell
+python .\scripts\set_api_key.py set
+```
+
+Do not store API keys in tracked repo files, plugin manifests, Markdown outputs, or command examples.
 
 ## Useful Commands
 

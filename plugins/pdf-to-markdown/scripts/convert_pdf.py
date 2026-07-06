@@ -7,10 +7,11 @@ import sys
 import time
 from pathlib import Path
 
-from bootstrap_marker import BootstrapError, ensure_environment
+from bootstrap_marker import BootstrapError, PLUGIN_ROOT, ensure_environment
 
 DEFAULT_MODEL = "gemini-3.1-flash-lite"
 LLM_SERVICE = "marker.services.gemini.GoogleGeminiService"
+LOCAL_ENV_FILE = PLUGIN_ROOT / ".env"
 
 
 def expected_outputs(pdf_path: Path, output_dir: Path) -> list[Path]:
@@ -33,7 +34,28 @@ def find_recent_markdown(output_dir: Path, started_at: float) -> list[Path]:
 
 
 def get_api_key() -> str | None:
-    return os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
+    return (
+        os.environ.get("GOOGLE_API_KEY")
+        or os.environ.get("GEMINI_API_KEY")
+        or read_local_env_key()
+    )
+
+
+def read_local_env_key() -> str | None:
+    if not LOCAL_ENV_FILE.exists():
+        return None
+
+    for raw_line in LOCAL_ENV_FILE.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        if key.strip() not in {"GOOGLE_API_KEY", "GEMINI_API_KEY"}:
+            continue
+        value = value.strip().strip('"').strip("'")
+        if value:
+            return value
+    return None
 
 
 def build_marker_command(
@@ -92,7 +114,10 @@ def main() -> int:
 
     api_key = get_api_key()
     if not api_key:
-        print("Set GOOGLE_API_KEY or GEMINI_API_KEY before converting with Marker LLM mode.", file=sys.stderr)
+        print(
+            "Set GOOGLE_API_KEY or GEMINI_API_KEY, or run scripts/set_api_key.py to store one in the plugin-local .env.",
+            file=sys.stderr,
+        )
         return 2
 
     output_dir = Path(args.output_dir).expanduser().resolve() if args.output_dir else pdf_path.parent

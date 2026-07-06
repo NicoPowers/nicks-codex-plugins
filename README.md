@@ -36,6 +36,15 @@ $env:GOOGLE_API_KEY = "your-api-key"
 
 `GEMINI_API_KEY` is also accepted. If only `GEMINI_API_KEY` is set, the script forwards it to Marker as `GOOGLE_API_KEY`.
 
+When Codex is already running and cannot see newly-set shell environment variables, store the key in the plugin-local gitignored `.env` file:
+
+```powershell
+python .\plugins\pdf-to-markdown\scripts\set_api_key.py set
+python .\plugins\pdf-to-markdown\scripts\set_api_key.py show
+```
+
+The live environment still takes precedence over the plugin-local `.env`.
+
 The first conversion creates `plugins/pdf-to-markdown/.venv` and installs `marker-pdf` there. The venv is ignored by git.
 
 ## Direct Script Usage
