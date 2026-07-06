@@ -14,45 +14,42 @@ Use this skill when the user asks to convert, extract, parse, summarize from, or
    - If the user uploaded a PDF and Codex exposes a local attachment path, use that path.
    - If no filesystem path is available, ask the user for the local PDF path.
 2. Prefer a user-terminal workflow for conversion jobs.
-   - Give the user copy-paste PowerShell commands that locate the installed plugin, store the API key if needed, and run the converter.
+   - Generate copy-paste terminal commands with the plugin's `scripts/print_commands.py` helper.
+   - The helper detects the user's OS and prints PowerShell on Windows or POSIX shell commands on macOS/Linux.
    - Do not run long conversions inside the Codex turn unless the user explicitly asks Codex to run it.
    - Tell the user that first-time dependency installation and large PDFs may take 10+ minutes.
 3. After the terminal command finishes, ask the user for the generated Markdown path or read the path printed by the script if it is available in context.
 4. Read the generated Markdown file into context when the user wants to use the PDF content in the current conversation.
 
-## Terminal Commands
+## Command Generation
 
-Give this setup command when the user needs to configure their Gemini API key:
+When the user needs terminal commands, run the command generator from the installed plugin root or from this skill's plugin root. From this `SKILL.md` directory, the script is at `../../scripts/print_commands.py`.
 
-```powershell
-$pluginBase = Join-Path $env:USERPROFILE ".codex\plugins\cache\nicks-codex-plugins\pdf-to-markdown"
-$pluginRoot = Get-ChildItem -LiteralPath $pluginBase -Directory |
-  Sort-Object LastWriteTime -Descending |
-  Select-Object -First 1
-python (Join-Path $pluginRoot.FullName "scripts\set_api_key.py") set
+Print API key setup commands:
+
+```bash
+python ../../scripts/print_commands.py setup
 ```
 
-Give this conversion command, replacing the PDF path:
+Print conversion commands for a PDF:
 
-```powershell
-$pluginBase = Join-Path $env:USERPROFILE ".codex\plugins\cache\nicks-codex-plugins\pdf-to-markdown"
-$pluginRoot = Get-ChildItem -LiteralPath $pluginBase -Directory |
-  Sort-Object LastWriteTime -Descending |
-  Select-Object -First 1
-python (Join-Path $pluginRoot.FullName "scripts\convert_pdf.py") "C:\path\to\paper.pdf"
+```bash
+python ../../scripts/print_commands.py convert "C:\path\to\paper.pdf"
 ```
 
-For selected pages:
+Print both setup and conversion commands:
 
-```powershell
-python (Join-Path $pluginRoot.FullName "scripts\convert_pdf.py") "C:\path\to\paper.pdf" --page-range "0,5-10,20"
+```bash
+python ../../scripts/print_commands.py all "C:\path\to\paper.pdf"
 ```
 
-For OCR-heavy PDFs:
+Pass conversion flags through the generator as needed:
 
-```powershell
-python (Join-Path $pluginRoot.FullName "scripts\convert_pdf.py") "C:\path\to\paper.pdf" --force-ocr
+```bash
+python ../../scripts/print_commands.py convert "C:\path\to\paper.pdf" --page-range "0,5-10,20" --force-ocr
 ```
+
+Paste the generated command block to the user. Do not hand-write OS-specific install or conversion snippets unless the generator is unavailable.
 
 ## Defaults
 

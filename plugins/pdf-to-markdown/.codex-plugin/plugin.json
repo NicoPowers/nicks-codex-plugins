@@ -1,6 +1,6 @@
 {
   "name": "pdf-to-markdown",
-  "version": "0.1.0+codex.20260706200909",
+  "version": "0.1.0+codex.20260706201557",
   "description": "Convert PDFs to Markdown with Marker for Codex context.",
   "author": {
     "name": "Nick"

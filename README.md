@@ -36,22 +36,33 @@ $env:GOOGLE_API_KEY = "your-api-key"
 
 `GEMINI_API_KEY` is also accepted. If only `GEMINI_API_KEY` is set, the script forwards it to Marker as `GOOGLE_API_KEY`.
 
-When Codex is already running and cannot see newly-set shell environment variables, store the key in the plugin-local gitignored `.env` file from your terminal:
+When Codex is already running and cannot see newly-set shell environment variables, generate commands for storing the key in the installed plugin's gitignored `.env` file:
 
 ```powershell
-$pluginBase = Join-Path $env:USERPROFILE ".codex\plugins\cache\nicks-codex-plugins\pdf-to-markdown"
-$pluginRoot = Get-ChildItem -LiteralPath $pluginBase -Directory |
-  Sort-Object LastWriteTime -Descending |
-  Select-Object -First 1
-python (Join-Path $pluginRoot.FullName "scripts\set_api_key.py") set
-python (Join-Path $pluginRoot.FullName "scripts\set_api_key.py") show
+python .\plugins\pdf-to-markdown\scripts\print_commands.py setup
 ```
 
 The live environment still takes precedence over the plugin-local `.env`.
 
 The first conversion creates `plugins/pdf-to-markdown/.venv` and installs `marker-pdf` there. The venv is ignored by git.
 
+## Terminal Command Generator
+
+The plugin includes a deterministic command generator. It detects the current OS and prints PowerShell commands on Windows or POSIX shell commands on macOS/Linux.
+
+From this repo checkout:
+
+```powershell
+python .\plugins\pdf-to-markdown\scripts\print_commands.py setup
+python .\plugins\pdf-to-markdown\scripts\print_commands.py convert "C:\path\to\file.pdf"
+python .\plugins\pdf-to-markdown\scripts\print_commands.py all "C:\path\to\file.pdf" --page-range "0,5-10,20" --force-ocr
+```
+
+To preview another OS target, pass `--os windows` or `--os posix`.
+
 ## Terminal Conversion Usage
+
+On Windows, the generated conversion command looks like this:
 
 ```powershell
 $pluginBase = Join-Path $env:USERPROFILE ".codex\plugins\cache\nicks-codex-plugins\pdf-to-markdown"
