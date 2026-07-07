@@ -1,0 +1,4 @@
+interface:
+  display_name: "Beads Orchestrator"
+  short_description: "Coordinate ready Beads through Codex threads"
+  default_prompt: "Use $beads-orchestrator to run ready Beads through implementation and review threads."

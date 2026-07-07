@@ -1,0 +1,23 @@
+{
+  "name": "beads-orchestrator",
+  "version": "0.1.0+codex.20260707094255",
+  "description": "Coordinate Beads issues through implementation and review Codex threads.",
+  "author": {
+    "name": "Nicolas"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Beads Orchestrator",
+    "shortDescription": "Run ready Beads through worker and review threads.",
+    "longDescription": "Adds a Codex skill for orchestrating Beads issue queues. The orchestrator claims ready beads, creates same-directory implementation and review threads at standard speed, monitors progress with a five-minute heartbeat, owns Beads comments/status updates, and closes work only after review passes.",
+    "developerName": "Nicolas",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use $beads-orchestrator to run ready Beads."
+    ]
+  }
+}
