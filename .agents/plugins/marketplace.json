@@ -17,10 +17,10 @@
       "category": "Productivity"
     },
     {
-      "name": "beads-orchestrator",
+      "name": "seeds-and-mulch",
       "source": {
         "source": "local",
-        "path": "./plugins/beads-orchestrator"
+        "path": "./plugins/seeds-and-mulch"
       },
       "policy": {
         "installation": "AVAILABLE",

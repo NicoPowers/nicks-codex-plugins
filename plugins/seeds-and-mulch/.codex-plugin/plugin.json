@@ -1,0 +1,34 @@
+{
+  "name": "seeds-and-mulch",
+  "version": "0.1.0",
+  "description": "Track repository work with Seeds and preserve durable expertise with Mulch.",
+  "author": {
+    "name": "Nicolas"
+  },
+  "repository": "https://github.com/NicoPowers/nicks-codex-plugins",
+  "license": "MIT",
+  "keywords": [
+    "seeds",
+    "mulch",
+    "issues",
+    "planning",
+    "expertise"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Seeds and Mulch",
+    "shortDescription": "Track work and compound repository expertise.",
+    "longDescription": "Use Seeds as the lightweight, git-native source of truth for epics, features, tasks, bugs, plans, dependencies, and status. Orchestrate explicit goals with sub-agents in the current task, then preserve durable repository knowledge with Mulch.",
+    "developerName": "Nicolas",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Track this work with Seeds and preserve its learnings.",
+      "Turn this feature into a Seeds epic and tasks.",
+      "Orchestrate this Seeds epic with a goal and sub-agents."
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seeds and Mulch"
+  short_description: "Track work and compound repository expertise"
+  default_prompt: "Use $seeds-and-mulch to track and orchestrate this work with Seeds, a goal, and sub-agents, then preserve durable Mulch learnings."

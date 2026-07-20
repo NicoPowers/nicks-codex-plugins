@@ -5,14 +5,16 @@ Personal Codex plugin monorepo.
 ## Plugins
 
 - `pdf-to-markdown`: Converts PDFs to Markdown with `datalab-to/marker`, using LLM mode by default with Gemini 3.1 Flash-Lite and image descriptions instead of extracted image files.
+- `seeds-and-mulch`: Uses Seeds for lightweight, git-native epics, features, tasks, bugs, plans, and dependencies, with Mulch as the durable repository-expertise layer.
 
 ## Install In Codex
 
 As a Git marketplace, add this GitHub repo with explicit sparse paths:
 
 ```powershell
-codex plugin marketplace add git@github.com:NicoPowers/nicks-codex-plugins.git --sparse .agents/plugins/marketplace.json --sparse plugins/pdf-to-markdown
+codex plugin marketplace add git@github.com:NicoPowers/nicks-codex-plugins.git --sparse .agents/plugins/marketplace.json --sparse plugins/pdf-to-markdown --sparse plugins/seeds-and-mulch
 codex plugin add pdf-to-markdown@nicks-codex-plugins
+codex plugin add seeds-and-mulch@nicks-codex-plugins
 ```
 
 Codex marketplace imports look for `.agents/plugins/marketplace.json`. The default Git sparse checkout may not include that hidden path, so the explicit `--sparse` arguments are required for this repo.
@@ -22,9 +24,29 @@ For a local filesystem install from this checkout:
 ```powershell
 codex plugin marketplace add C:\Users\nicol\Documents\nicks-codex-plugins
 codex plugin add pdf-to-markdown@nicks-codex-plugins
+codex plugin add seeds-and-mulch@nicks-codex-plugins
 ```
 
-Start a new Codex thread after installing or updating the plugin so Codex can load the skill.
+Start a new Codex task after installing or updating the plugin so Codex can load the skill.
+
+## Seeds and Mulch Setup
+
+Install the two lightweight CLIs:
+
+```powershell
+bun install -g @os-eco/seeds-cli @os-eco/mulch-cli
+```
+
+Initialize them once in a repository that should use the workflow:
+
+```powershell
+sd init
+ml init
+sd onboard
+ml setup codex
+```
+
+The skill uses Seeds as the source of truth for work and Mulch for evidence-backed knowledge worth carrying into future tasks. It does not automatically commit tracker data; `sd sync` and `ml sync` are reserved for an explicitly authorized commit workflow.
 
 ## PDF To Markdown Setup
 
